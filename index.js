@@ -4,16 +4,24 @@ require('dotenv').config();
 const db=require('./db');
 const cors=require('cors');
 const upload=require('express-fileupload')
-
-
 const userRoutes=require('./routes/userRoutes')
 const postRoutes=require('./routes/postRoutes');
 const { notFound,errorHandler } = require('./middleware/errorMiddleware');
 
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "https://luminous-croquembouche-b110ff.netlify.app");
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept"
+    );
+    next();
+  });
+
 app.use(express.json({extended:true}))
 app.use(express.urlencoded({extended:true}))
 
-app.use(cors({credentials:true,origin:'http://localhost:3000'}))
+
+app.use(cors({credentials:true,origin:true}))
 app.use(upload())
 app.use('/uploads',express.static(__dirname+'/uploads'))
 
