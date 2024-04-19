@@ -38,29 +38,6 @@ const createPost=async (req,res,next)=>{
                 res.status(201).json(newPost)
             }
         })
-        exec(`git add uploads/${thumbnail.name}`, (err, stdout, stderr) => {
-            if (err) {
-                console.error('Git add error:', err);
-                return res.status(500).send('Failed to add image to Git');
-            }
-
-            exec(`git commit -m "Added ${thumbnail.name}"`, (err, stdout, stderr) => {
-                if (err) {
-                    console.error('Git commit error:', err);
-                    return res.status(500).send('Failed to commit image to Git');
-                }
-
-                exec('git push origin main', (err, stdout, stderr) => {
-                    if (err) {
-                        console.error('Git push error:', err);
-                        return res.status(500).send('Failed to push changes to Git');
-                    }
-
-                    console.log('Image uploaded and Git updated successfully');
-                    res.status(200).send('Image uploaded and Git updated successfully');
-                });
-            });
-        });
     }
     catch(err){
         return next( new HttpError(err))
